@@ -15,14 +15,100 @@ byte segmentMap[] = {
   0x80, // 8  0b10000000
   0x90  // 9  0b10010000
 };
+//----------------------------------------------------------------------------------
+
+constexpr int diceType[] { 4, 6, 8, 12, 20, 100 };
+constexpr int diceType_Count = sizeof(diceType)/sizeof(diceType[0]);
+
+enum Mode {normal, configuration};
+
+Mode actualMode = configuration;
 
 //----------------------------------------------------------------------------------
+
+struct Button1{
+  
+    int lastState = ON;
+    int currentState;
+
+    void Press(){
+      currentState = digitalRead(button1_pin);
+       if(lastState == OFF && currentState == ON){    
+         
+          if(actualMode == configuration){
+            actualMode = normal;
+            Serial.println("Change to normal");
+          }
+          if(actualMode == normal){
+            
+            Serial.println("our result");
+           
+          }
+       }
+        lastState = currentState;
+    }
+   
+    
+} button1;
+
+struct Button2{
+  
+    int lastState = ON;
+    int currentState;
+
+    void Press(){
+      currentState = digitalRead(button2_pin);
+       if(lastState == OFF && currentState == ON){    
+           if(actualMode == configuration){
+            Serial.println("Change number of throws");
+          }  
+          if(actualMode == normal){
+            Serial.println("Change to configuration mode");
+            actualMode = configuration;
+          }
+       }
+        lastState = currentState;
+    }
+   
+    
+} button2;
+
+struct Button3{
+  
+    int lastState = ON;
+    int currentState;
+
+    void Press(){
+      currentState = digitalRead(button3_pin);
+       if(lastState == OFF && currentState == ON){ 
+         
+          if(actualMode == configuration){
+            Serial.println("Change dice type");
+          }  
+          if(actualMode == normal){
+            Serial.println("Change to configuration mode");
+            actualMode = configuration;
+          }
+         
+       }
+        lastState = currentState;
+    }
+    
+} button3;
+//----------------------------------------------------------------------------------
+
 struct Buttons {
   
     void SetUp(){
        for (int i = 0; i < buttonPinsCount; ++i) {
           pinMode(buttonPins[i], INPUT);
        }
+    }
+
+    void Handler(){
+      button1.Press();
+      button2.Press();
+      button3.Press();
     }
     
 } buttons;
@@ -46,12 +132,14 @@ struct Display {
     
 } ourDisplay;
 
+//-------------------------------------------------------------------
 
 void setup() {
+    Serial.begin(9600);
     buttons.SetUp();
     ourDisplay.SetUp();
 }
 
 void loop() {
-  
+  buttons.Handler();
 }
