@@ -24,6 +24,31 @@ enum Mode {normal, configuration};
 
 Mode actualMode = configuration;
 
+//---------------------------------------------------------------------------------
+struct Dice{
+  
+  int index = 0;
+  int throwTimes = 1;
+  int maxThrowTimes = 9;
+
+  int getType(){
+    if(index == diceType_Count - 1){
+       index = 0;
+       return diceType[0];
+    }
+    return diceType[++index];
+  }
+
+  int getThrowTimes(){
+    
+    if(throwTimes == maxThrowTimes){
+      throwTimes = 0;
+    }
+    return ++throwTimes;
+  }
+  
+} dice;
+
 //----------------------------------------------------------------------------------
 
 struct Button1{
@@ -60,7 +85,7 @@ struct Button2{
       currentState = digitalRead(button2_pin);
        if(lastState == OFF && currentState == ON){    
            if(actualMode == configuration){
-            Serial.println("Change number of throws");
+            Serial.println(dice.getThrowTimes());
           }  
           if(actualMode == normal){
             Serial.println("Change to configuration mode");
@@ -83,7 +108,7 @@ struct Button3{
        if(lastState == OFF && currentState == ON){ 
          
           if(actualMode == configuration){
-            Serial.println("Change dice type");
+            Serial.println(dice.getType());
           }  
           if(actualMode == normal){
             Serial.println("Change to configuration mode");
@@ -96,6 +121,8 @@ struct Button3{
     
 } button3;
 //----------------------------------------------------------------------------------
+
+
 
 struct Buttons {
   
