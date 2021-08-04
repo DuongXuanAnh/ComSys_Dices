@@ -46,31 +46,50 @@ struct Dice{
     }
     return ++throwTimes;
   }
+
+  int randomResultOneRound(){
+     return 1 + rand() % diceType[index];
+  }
+
+  int resultSum(){
+
+      int sum = 0;
+
+      for(int i = 0; i < throwTimes; i++){
+        sum += randomResultOneRound();     
+      }
+
+     return sum;
+  }
   
 } dice;
 
 //----------------------------------------------------------------------------------
 
+const unsigned long periodicDelay = 100;
+unsigned long timerDelay = 0;
+
 struct Button1{
   
     int lastState = ON;
     int currentState;
-
+    
     void Press(){
-      currentState = digitalRead(button1_pin);
-       if(lastState == OFF && currentState == ON){    
-         
+      currentState = digitalRead(button1_pin);  
+         if(currentState == ON){  
           if(actualMode == configuration){
             actualMode = normal;
             Serial.println("Change to normal");
           }
           if(actualMode == normal){
+            if((unsigned long) millis() - timerDelay >= periodicDelay){
+                Serial.println(dice.resultSum());
+              timerDelay = millis();
+            }
             
-            Serial.println("our result");
            
           }
        }
-        lastState = currentState;
     }
    
     
@@ -121,8 +140,6 @@ struct Button3{
     
 } button3;
 //----------------------------------------------------------------------------------
-
-
 
 struct Buttons {
   
