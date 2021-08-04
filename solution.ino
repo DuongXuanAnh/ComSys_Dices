@@ -164,7 +164,7 @@ struct Button1{
          if(currentState == ON){  
           if(actualMode == configuration){
             actualMode = normal;
-            Serial.println("Change to normal");
+//            Serial.println("Change to normal");
           }
           if(actualMode == normal){
             if((unsigned long) millis() - timerDelay >= periodicDelay){
@@ -188,10 +188,10 @@ struct Button2{
       currentState = digitalRead(button2_pin);
        if(lastState == OFF && currentState == ON){    
            if(actualMode == configuration){
-            Serial.println(dice.getThrowTimes());
+//            Serial.println(dice.getThrowTimes());
           }  
           if(actualMode == normal){
-            Serial.println("Change to configuration mode");
+//            Serial.println("Change to configuration mode");
             actualMode = configuration;
           }
        }
@@ -211,10 +211,10 @@ struct Button3{
        if(lastState == OFF && currentState == ON){ 
          
           if(actualMode == configuration){
-            Serial.println(dice.getType());
+//            Serial.println(dice.getType());
           }  
           if(actualMode == normal){
-            Serial.println("Change to configuration mode");
+//            Serial.println("Change to configuration mode");
             actualMode = configuration;
           }
          
@@ -244,7 +244,7 @@ struct Buttons {
 //----------------------------------------------------------------------------------
 
 void setup() {
-    Serial.begin(9600);
+//    Serial.begin(9600);
     buttons.SetUp();
     ourDisplay.SetUp();
 }
