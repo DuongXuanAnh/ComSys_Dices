@@ -189,6 +189,7 @@ struct Button2{
        if(lastState == OFF && currentState == ON){    
            if(actualMode == configuration){
 //            Serial.println(dice.getThrowTimes());
+              dice.getThrowTimes();
           }  
           if(actualMode == normal){
 //            Serial.println("Change to configuration mode");
@@ -212,6 +213,7 @@ struct Button3{
          
           if(actualMode == configuration){
 //            Serial.println(dice.getType());
+              dice.getType();
           }  
           if(actualMode == normal){
 //            Serial.println("Change to configuration mode");
