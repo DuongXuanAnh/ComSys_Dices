@@ -105,6 +105,7 @@ struct Display {
          writeGlyphBitmask(segmentMap[num_to_show], pos_bitmask[ledPosition]);    
     }
 
+    // @tom: udelat drobet lepe, co kdyby se veslo na displej milion mist? 
     void DisplayConfiguration(){
           writeGlyphBitmask(segmentMap[dice.throwTimes], pos_bitmask[3]); // Na 1. pozice zleva je kolik krat mame hazet
           writeGlyphBitmask(LETTER_D, pos_bitmask[2]); // Na 2. pozice zleva je pismeno D
@@ -130,6 +131,7 @@ struct Display {
           }
     }
     
+    // @tom: udelat drobet lepe, co kdyby se veslo na displej milion mist? 
     void multiplexing(){
          
           if(actualMode == configuration){
