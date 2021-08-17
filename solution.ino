@@ -17,6 +17,7 @@ byte segmentMap[] = {
 };
 
 constexpr byte LETTER_D = 0b10100001;   // d
+//constexpr byte MaxLedWeHave = 4;
 
 //----------------------------------------------------------------------------------
 
@@ -120,7 +121,7 @@ struct Display {
           else if(diceType[dice.index] == 100){
             writeGlyphBitmask(segmentMap[0], pos_bitmask[1]);
             writeGlyphBitmask(segmentMap[0], pos_bitmask[0]);
-          }
+          }       
     }
 
     void DisplayMode(){
@@ -130,19 +131,23 @@ struct Display {
              DisplayNumber();
           }
     }
-    
-    // @tom: udelat drobet lepe, co kdyby se veslo na displej milion mist? 
-    void multiplexing(){
-         
-          if(actualMode == configuration){
-             numberOfLedActive = 4;
-          }else if(actualMode == normal){
-             if (result < 10) numberOfLedActive = 1;
-             else if (result < 100) numberOfLedActive = 2;
-             else if (result < 1000) numberOfLedActive = 3;
-             else if (result < 10000) numberOfLedActive = 4;
-          }
 
+    int get_NumberOfLedActive(int result){
+        int count = 1;
+        while(result > exponent(10, count)){
+            count++;
+        }         
+        return count;
+    }
+    
+    void multiplexing(){
+          if(actualMode == configuration){
+            
+             numberOfLedActive = 4;
+             
+          }else if(actualMode == normal){
+              numberOfLedActive = get_NumberOfLedActive(result);
+          }
           ledPosition++;
           ledPosition = ledPosition % numberOfLedActive;  
     }
